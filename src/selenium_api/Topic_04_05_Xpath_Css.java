@@ -21,7 +21,7 @@ public class Topic_04_05_Xpath_Css {
 		driver = new FirefoxDriver();
 
 		System.out.println("Pre-condition - Step 02: Wait for page loading success");
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 		System.out.println("Pre-condition - Step 03: Open guru99 url");
 		driver.get("https://live.guru99.com/");
@@ -29,7 +29,7 @@ public class Topic_04_05_Xpath_Css {
 
 	}
 
-	@Test
+	@Test //Passed
 	public void TC01_Login_Empty() throws Exception {
 
 		String UserExpValMes = "This is a required field.";
@@ -60,23 +60,30 @@ public class Topic_04_05_Xpath_Css {
 	public void TC02_Login_With_Email_Invalid() throws Exception {
 
 		String UserExpValMes = "Please enter a valid email address. For example johndoe@domain.com.";
+		
+		driver.navigate().back();
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
 		System.out.println();
 		System.out.println("Run TC_02 : Login With Email Invalid");
 		System.out.println();
+		
+		System.out.println("Run TC_02 : 1. Click on My Account link to Login Page");
+		driver.findElement(By.xpath(".//*[@class='footer']//a[@title='My Account']")).click();
+		Thread.sleep(3000);
 
-		System.out.println("Run TC_02 : 1. Enter Invalid Email");
+		System.out.println("Run TC_02 : 2. Enter Invalid Email");
 		driver.findElement(By.xpath(".//*[@id='email']")).sendKeys("asasdasdasdas@adssadasdas");
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_02 : 2. Click Login Button");
+		System.out.println("Run TC_02 : 3. Click Login Button");
 		driver.findElement(By.xpath(".//*[@id='send2']")).click();
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_02 : 3. Get Username Validate Message");
+		System.out.println("Run TC_02 : 4. Get Username Validate Message");
 		String UserActValMes = driver.findElement(By.xpath(".//*[@id='advice-required-entry-email']")).getText();
 
-		System.out.println("Run TC_02 : 4. Verify Expected Validate message match with Actual Validate message ");
+		System.out.println("Run TC_02 : 5. Verify Expected Validate message match with Actual Validate message ");
 		Assert.assertEquals(UserActValMes, UserExpValMes);
 
 	}
@@ -87,123 +94,136 @@ public class Topic_04_05_Xpath_Css {
 
 		String PassExpValMes = "Please enter 6 or more characters without leading or trailing spaces.";
 
-		System.out.println();
-		System.out.println("Pre-Condition TC_03 : Clear Username Validate Message");
-		driver.findElement(By.xpath(".//*[@id='email']")).clear();
+		driver.navigate().back();
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
 		System.out.println("Run TC_03 : Login With Password Smaller Than 6 Character");
 		System.out.println();
+		
+		System.out.println("Run TC_03 : 1. Click on My Account link to Login Page");
+		driver.findElement(By.xpath(".//*[@class='footer']//a[@title='My Account']")).click();
+		Thread.sleep(3000);
 
-		System.out.println("Run TC_03 : 1. Enter Valid Email");
+		System.out.println("Run TC_03 : 2. Enter Valid Email");
 		driver.findElement(By.xpath(".//*[@id='email']")).sendKeys("automation@gmail.com");
 		Thread.sleep(3000);
-
-		System.out.println();
-		System.out.println("Run TC_03 : 2. Enter invalid Password");
-		System.out.println();
+		
+		System.out.println("Run TC_03 : 3. Enter invalid Password");
 		driver.findElement(By.xpath(".//*[@id='pass']")).sendKeys("123");
+		Thread.sleep(5000);
+		
+		System.out.println("Run TC_02 : 4. Click Login Button");
+		driver.findElement(By.xpath(".//*[@id='send2']")).click();
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_03 : 3. Get Password Validate Message");
+		System.out.println("Run TC_03 : 5. Get Password Validate Message");
 		String PassActValMes = driver.findElement(By.xpath(".//*[@id='advice-required-entry-pass']")).getText();
 
-		System.out.println("Run TC_03 : 4. Verify Expected Validate message match with Actual Validate message ");
+		System.out.println("Run TC_03 : 6. Verify Expected Validate message match with Actual Validate message ");
 		Assert.assertEquals(PassActValMes, PassExpValMes);
 	}
 
-	@Test
+	@Test //Passed
 	public void TC04_Login_With_Password_Incorrect() throws Exception {
 		// TODO Auto-generated method stub
 
 		String ExpValMes = "Invalid login or password.";
-
-		System.out.println();
-		System.out.println("Pre-Condition TC_04 : 1. Clear Username Field");
-		driver.findElement(By.xpath(".//*[@id='email']")).clear();
-
-		System.out.println("Pre-Condition TC_04 : 2. Clear Password Field");
-		driver.findElement(By.xpath(".//*[@id='pass']")).clear();
+		
+		driver.navigate().back();
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
 		System.out.println();
 		System.out.println("Run TC_04 : Login With Password Incorrect");
 		System.out.println();
+		
+		System.out.println("Run TC_04 : 1. Click on My Account link to Login Page");
+		driver.findElement(By.xpath(".//*[@class='footer']//a[@title='My Account']")).click();
+		Thread.sleep(3000);
 
-		System.out.println("Run TC_04 : 1. Enter Valid Email");
+		System.out.println("Run TC_04 : 2. Enter Valid Email");
 		driver.findElement(By.xpath(".//*[@id='email']")).sendKeys("automation@gmail.com");
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_04 : 2. Enter invalid Password");
+		System.out.println("Run TC_04 : 3. Enter invalid Password");
 		driver.findElement(By.xpath(".//*[@id='pass']")).sendKeys("123123123123");
 		Thread.sleep(3000);
+		
+		System.out.println("Run TC_02 : 4. Click Login Button");
+		driver.findElement(By.xpath(".//*[@id='send2']")).click();
+		Thread.sleep(3000);
 
-		System.out.println("Run TC_04 : 3. Get Password Validate Message");
-		String ActValMes = driver.findElement(By.xpath(".//*[@class='error-msg']//span")).getText();
+		System.out.println("Run TC_04 : 5. Get Password Validate Message");
+		String ActValMes = driver.findElement(By.xpath(".//*[@class='error-msg']")).getText();
 
-		System.out.println("Run TC_04 : 4. Verify Expected Validate message match with Actual Validate message ");
+		System.out.println("Run TC_04 : 6. Verify Expected Validate message match with Actual Validate message ");
 		Assert.assertEquals(ActValMes, ExpValMes);
 	}
 
-	@Test
+	@Test // Passed
 	public void TC05_Create_An_Account() throws Exception {
 		// TODO Auto-generated method stub
 
 		String ExpValMess = "Thank you for registering with Main Website Store.";
 		String ExpUrl = "http://live.guru99.com/index.php/";
-		String ExpTitle = "Home page";
+		
+		driver.navigate().back();
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
 		System.out.println();
 		System.out.println("Run TC_05 : Create An Account");
 		System.out.println();
+		
+		System.out.println("Run TC_05 : 1. Click on My Account link to Login Page");
+		driver.findElement(By.xpath(".//*[@class='footer']//a[@title='My Account']")).click();
+		Thread.sleep(3000);
 
-		System.out.println("Run TC_05 : 1. Click Register Button");
+		System.out.println("Run TC_05 : 2. Click Register Button");
 		driver.findElement(By.xpath(".//*[@title='Create an Account']")).click();
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_05 : 2. Enter Valid First Name Field");
+		System.out.println("Run TC_05 : 3. Enter Valid First Name Field");
 		driver.findElement(By.xpath(".//*[@id='firstname']")).sendKeys("automation");
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_05 : 3. Enter Valid Last Name Field");
-		driver.findElement(By.xpath(".//*[@id='lastname']")).sendKeys("testing01");
+		System.out.println("Run TC_05 : 4. Enter Valid Last Name Field");
+		driver.findElement(By.xpath(".//*[@id='lastname']")).sendKeys("testing07");
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_05 : 4. Enter Valid Email Address Field");
-		driver.findElement(By.xpath(".//*[@id='email_address']")).sendKeys("automationtesting01@gmail.com");
+		System.out.println("Run TC_05 : 5. Enter Valid Email Address Field");
+		driver.findElement(By.xpath(".//*[@id='email_address']")).sendKeys("automationtesting07@gmail.com");
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_05 : 5. Enter Valid Password Field");
+		System.out.println("Run TC_05 : 6. Enter Valid Password Field");
 		driver.findElement(By.xpath(".//*[@id='password']")).sendKeys("autotest01");
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_05 : 6. Enter Valid Confirm Password Field");
+		System.out.println("Run TC_05 : 7. Enter Valid Confirm Password Field");
 		driver.findElement(By.xpath(".//*[@id='confirmation']")).sendKeys("autotest01");
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_05 : 7. Click Register Button");
+		System.out.println("Run TC_05 : 8. Click Register Button");
 		driver.findElement(By.xpath(".//*[@class='button']")).click();
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_05 : Get Success Message");
-		String ActValMess = driver.findElement(By.xpath(".//*[@class='success-msg']//span")).getText();
+		System.out.println("Run TC_05 : 9. Get Success Message");
+		String ActValMess = driver.findElement(By.xpath(".//*[@class='success-msg']")).getText();
 		Thread.sleep(3000);
 
 		Assert.assertEquals(ActValMess, ExpValMess);
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_05 : Open Account Dropdownlist");
-		driver.findElement(By.xpath(".//*[@class='skip-link skip-account skip-active']//span[@class='label']")).click();
+		System.out.println("Run TC_05 : 10. Open Account Dropdownlist");
+		driver.findElement(By.xpath(".//*[@class='label' and text() = 'Account']")).click();
 		Thread.sleep(3000);
 
-		System.out.println("Run TC_05 : Click Log Out Button");
-		driver.findElement(By.xpath(".//*//a[@title='Log Out']")).click();
-		Thread.sleep(3000);
+		System.out.println("Run TC_05 : 11. Click Log Out Button");
+		driver.findElement(By.xpath("//a[@title='Log Out']")).click();
+		Thread.sleep(6000);
 
-		System.out.println("Run TC_05 : Get Url and Title Page");
+		System.out.println("Run TC_05 : 12. Get Url and Title Page");
 		String ActUrl = driver.getCurrentUrl();
-		String ActTitle = driver.getTitle();
 
-		System.out.println("Run TC_05 : Verify Expected Homepage match with Actual Validate Homepage");
-		Assert.assertEquals(ActTitle, ExpTitle);
+		System.out.println("Run TC_05 : 13. Verify Expected Homepage match with Actual Validate Homepage");
 		Assert.assertEquals(ActUrl, ExpUrl);
 
 	}
