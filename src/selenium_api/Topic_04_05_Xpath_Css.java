@@ -1,5 +1,6 @@
 package selenium_api;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -34,6 +35,8 @@ public class Topic_04_05_Xpath_Css {
 	String successMsg = "//li[@class='success-msg']";
 	String accBtn = "//span[@class='label' and text() = 'Account']";
 	String logOutBtn = "//a[@title='Log Out']";
+	String lastNameVal = "testing"+randomNumber()+"";
+	String passVal = "autotest"+randomNumber()+"";
 
 	@BeforeClass
 	public void beforeClass() {
@@ -209,19 +212,19 @@ public class Topic_04_05_Xpath_Css {
 		Thread.sleep(3000);
 
 		System.out.println("Run TC_05 : 4. Enter Valid Last Name Field");
-		driver.findElement(By.xpath(lastNameField)).sendKeys("testing08");
+		driver.findElement(By.xpath(lastNameField)).sendKeys(lastNameVal);
 		Thread.sleep(3000);
 
 		System.out.println("Run TC_05 : 5. Enter Valid Email Address Field");
-		driver.findElement(By.xpath(emailAdrField)).sendKeys("automationtesting08@gmail.com");
+		driver.findElement(By.xpath(emailAdrField)).sendKeys("automationtesting"+randomNumber()+"@gmail.com");
 		Thread.sleep(3000);
 
 		System.out.println("Run TC_05 : 6. Enter Valid Password Field");
-		driver.findElement(By.xpath(passResField)).sendKeys("autotest01");
+		driver.findElement(By.xpath(passResField)).sendKeys(passVal);
 		Thread.sleep(3000);
 
 		System.out.println("Run TC_05 : 7. Enter Valid Confirm Password Field");
-		driver.findElement(By.xpath(conPasResField)).sendKeys("autotest01");
+		driver.findElement(By.xpath(conPasResField)).sendKeys(passVal);
 		Thread.sleep(3000);
 
 		System.out.println("Run TC_05 : 8. Click Register Button");
@@ -256,6 +259,12 @@ public class Topic_04_05_Xpath_Css {
 
 		System.out.println("Post-condition: Close Firefox browser");
 		driver.quit();
+	}
+	
+	public int randomNumber() {
+		
+		Random random = new Random();
+		return random.nextInt(999999);
 	}
 
 }
