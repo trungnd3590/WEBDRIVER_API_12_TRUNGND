@@ -46,6 +46,10 @@ public class Topic_06_WebBrowser_WebElement_Commands {
 	@Test
 	public void TC01_CheckElementisDisplayed() {
 
+		System.out.println();
+		System.out.println("Run TC 01 : Check Element is Displayed");
+		System.out.println();
+
 		System.out.println("Step 01 : Check Email Field is Displayed or not");
 		Boolean emailDis = driver.findElement(By.xpath(emailFieldXpath)).isDisplayed();
 
@@ -80,6 +84,10 @@ public class Topic_06_WebBrowser_WebElement_Commands {
 
 	@Test
 	public void TC02_CheckElementisEnableDisable() {
+
+		System.out.println();
+		System.out.println("Run TC 02 : Check Element is Enable or Disable");
+		System.out.println();
 
 		Boolean emailEnable = driver.findElement(By.xpath(emailFieldXpath)).isEnabled();
 		if (emailEnable == true) {
@@ -122,6 +130,8 @@ public class Topic_06_WebBrowser_WebElement_Commands {
 		} else {
 			System.out.println("Slider 01 is Disable");
 		}
+
+		System.out.println();
 
 		Boolean passDisable = driver.findElement(By.xpath(passFieldXpath)).isEnabled();
 		if (passDisable == true) {
@@ -170,6 +180,10 @@ public class Topic_06_WebBrowser_WebElement_Commands {
 	@Test
 	public void TC03_CheckElementisSelected() {
 
+		System.out.println();
+		System.out.println("Run TC 03 : Check Element is Selected");
+		System.out.println();
+
 		System.out.println("Step 01 : Click Age Under 18 Radio Button");
 		driver.findElement(By.xpath(ageUnder18RadioBtnXpath)).click();
 
@@ -191,14 +205,26 @@ public class Topic_06_WebBrowser_WebElement_Commands {
 		ageSeleted = driver.findElement(By.xpath(ageUnder18RadioBtnXpath)).isSelected();
 		inteSelected = driver.findElement(By.xpath(inteDevCheckboxXpath)).isSelected();
 
-		Assert.assertTrue(ageSeleted);
-		Assert.assertFalse(inteSelected);
+		if (ageSeleted == true) {
+			System.out.println("Step 05.01 : Age Under 18 Radio Button is Selected");
+		} else {
+			System.out.println("Step 05.01 : Age Under 18 Radio Button is NOT Seleted");
+		}
+
+		if (inteSelected == true) {
+			System.out.println("Step 05.02 : Interest Development Checkbox is Selected");
+		} else {
+			System.out.println("Step 05.02 : Interest Development Checkbox is NOT Seleted");
+		}
+
 	}
 
 	@AfterClass
 	public void afterClass() {
 
+		System.out.println();
 		System.out.println("Post-condition: Close Firefox browser");
+		System.out.println();
 		driver.quit();
 	}
 
