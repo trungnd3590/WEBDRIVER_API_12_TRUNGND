@@ -8,15 +8,20 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
 public class Topic_07_08_Textbox_TextArea_Dropdown_Custom_Dropdown {
 	WebDriver driver;
+	WebDriverWait wait;
+	JavascriptExecutor js;
 
 	String userVal = "mngr209708";
 	String passVal = "arasYsY";
@@ -56,11 +61,19 @@ public class Topic_07_08_Textbox_TextArea_Dropdown_Custom_Dropdown {
 
 	By job01DDL = By.xpath("//select[@id='job1']");
 
-	By jqueryPage01 = By.xpath("//span[@id='number-button']/span[contains(@class,'ui-selectmenu-icon')]");
-	By agularPage = By.xpath("//mat-select[@id='mat-select-5']//span[contains(@class,'ng-tns-c21-18')]");
-	By reactPage = By.xpath("//div[text()='Select Friend']");
-	By vuePage = By.xpath("//li[@class='dropdown-toggle']");
-	By editPage = By.xpath("//div[@id='default-place']");
+	String jqueryPageOpen = "//span[@id='number-button']";
+	String jqueryDropList = "//ul[@id='number-menu']/li/div";
+	String agularPageOpen = "//label/child::mat-label[text()='State']";
+	String agularDropList = "//div[contains(@class,'mat-primary')]/mat-option";
+	String reactJSPageOpen = "//div[@class='ui fluid selection dropdown']";
+	String reacJSDropList = "//div[@class='visible menu transition']/div/span";
+	String vuePageOpen = "//li[@class='dropdown-toggle']";
+	String vueDropList = "//ul[@class='dropdown-menu']/li/a";
+
+	By jquerySelectedItem = By.xpath("//span[@id='number-button']/span[@class='ui-selectmenu-text']");
+	By agularSelectedItem = By.xpath("//div[@class='mat-select-value']//span[text()='Missouri']");
+	By reactJSSelectedItem = By.xpath("//div[@class='ui fluid selection dropdown']/div");
+	By vueSelectedItem = By.xpath("//li[@class='dropdown-toggle']");
 
 	@BeforeClass
 	public void beforeClass() {
@@ -240,25 +253,29 @@ public class Topic_07_08_Textbox_TextArea_Dropdown_Custom_Dropdown {
 		String agularpageUrl = "https://material.angular.io/components/select/examples";
 		String reactJSPageUrl = "https://react.semantic-ui.com/modules/dropdown/";
 		String vuePageUrl = "https://mikerodham.github.io/vue-dropdowns/";
-		// String editPageUrl = "http://indrimuska.github.io/jquery-editable-select/";
 
-		// System.out.println(handleDropAndGetElement(jqueryPage, "19", jqueryPageUrl,
-		// "Jquery Page"));
+		String jqueryVal = "19";
+		String agularVal = "Missouri";
+		String reacJSVal = "Stevie Feliciano";
+		String vueVal = "Second Option";
 
-		/*
-		 * System.out.println(handleDropAndGetElement(agularPage, "Arkansas",
-		 * agularpageUrl, "Agular Page"));
-		 * 
-		 * System.out.println(handleDropAndGetElement(reactPage, "Stevie Feliciano",
-		 * reactJSPageUrl, "Reacr JS Page"));
-		 * 
-		 * System.out.println(handleDropAndGetElement(vuePage, "Second Option",
-		 * vuePageUrl, "Vue JS Page"));
-		 */
-		System.out.println("Pre-condition : Open Page url");
-		driver.get(jqueryPageUrl);
+		selectItemInCustomDropdown(jqueryPageUrl, jqueryPageOpen, jqueryDropList, jqueryVal);
+		Assert.assertEquals(getTextElement(jquerySelectedItem), jqueryVal);
+
 		Thread.sleep(2000);
-		driver.findElement(jqueryPage01).click();
+
+		selectItemInCustomDropdown(agularpageUrl, agularPageOpen, agularDropList, agularVal);
+		Assert.assertEquals(getTextElement(agularSelectedItem), agularVal);
+
+		Thread.sleep(2000);
+
+		selectItemInCustomDropdown(reactJSPageUrl, reactJSPageOpen, reacJSDropList, reacJSVal);
+		Assert.assertEquals(getTextElement(reactJSSelectedItem), reacJSVal);
+
+		Thread.sleep(2000);
+
+		selectItemInCustomDropdown(vuePageUrl, vuePageOpen, vueDropList, vueVal);
+		Assert.assertEquals(getTextElement(vueSelectedItem), vueVal);
 
 	}
 
@@ -279,23 +296,36 @@ public class Topic_07_08_Textbox_TextArea_Dropdown_Custom_Dropdown {
 		return driver.findElement(by).getAttribute("value");
 	}
 
-	/*
-	 * public String handleDropAndGetElement(By by, String dataValue, String
-	 * pageUrl, String pageValue) throws Exception {
-	 * 
-	 * WebElement element ; String option;
-	 * 
-	 * System.out.println("Pre-condition : Open" + pageValue + " url");
-	 * driver.get(pageUrl); Thread.sleep(2000);
-	 * 
-	 * // Tìm và chọn giá trị trong Dropdownlist reactJS Select pageElement = new
-	 * Select(driver.findElement(by)); pageElement.selectByVisibleText(dataValue);
-	 * element = pageElement.getFirstSelectedOption(); option = element.getText();
-	 * String result = "Select a " + pageValue + " Dropdownlist value is : " +
-	 * option;
-	 * 
-	 * return result; }
-	 */
+	public void selectItemInCustomDropdown(String pageUrl, String parentLocator, String allItemLocator,
+			String expectedItem) throws Exception {
+
+		System.out.println("Open Page Url");
+		driver.get(pageUrl);
+
+		// Click vào dropdown để hiển thị tất cả Item
+		WebElement parentDropdown = driver.findElement(By.xpath(parentLocator));
+		js.executeScript("arguments[0].scrollIntoView(true);", parentDropdown);
+		Thread.sleep(1000);
+		js.executeScript("arguments[0].click();", parentDropdown);
+		Thread.sleep(2000);
+
+		// Chờ cho đến khi load ra hết các Item trong Dropdown
+		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(allItemLocator)));
+
+		List<WebElement> allItem = driver.findElements(By.xpath(allItemLocator));
+		for (WebElement item : allItem) {
+			if (item.getText().equals(expectedItem)) {
+				// Scroll đến Item cần
+				js.executeScript("arguments[0].scrollIntoView(true);", item);
+				Thread.sleep(2000);
+				System.out.println("Item cần click : " + item.getText());
+				item.click();
+				Thread.sleep(2000);
+				break;
+			}
+		}
+
+	}
 
 	@AfterClass
 	public void afterClass() {
