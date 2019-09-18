@@ -69,11 +69,14 @@ public class Topic_07_08_Textbox_TextArea_Dropdown_Custom_Dropdown {
 	String reacJSDropList = "//div[@class='visible menu transition']/div/span";
 	String vuePageOpen = "//li[@class='dropdown-toggle']";
 	String vueDropList = "//ul[@class='dropdown-menu']/li/a";
+	String editPageOpen = "//div[@id='default-place']/child::input";
+	String editDroplist = "//div[@id='default-place']/ul/li";
 
 	By jquerySelectedItem = By.xpath("//span[@id='number-button']/span[@class='ui-selectmenu-text']");
 	By agularSelectedItem = By.xpath("//div[@class='mat-select-value']//span[text()='Missouri']");
 	By reactJSSelectedItem = By.xpath("//div[@class='ui fluid selection dropdown']/div");
 	By vueSelectedItem = By.xpath("//li[@class='dropdown-toggle']");
+	By editSelectedItem = By.xpath("//div[@id='default-place']/ul/li[contains(@class,'es-visible')]");
 
 	@BeforeClass
 	public void beforeClass() {
@@ -277,6 +280,27 @@ public class Topic_07_08_Textbox_TextArea_Dropdown_Custom_Dropdown {
 		selectItemInCustomDropdown(vuePageUrl, vuePageOpen, vueDropList, vueVal);
 		Assert.assertEquals(getTextElement(vueSelectedItem), vueVal);
 
+	}
+	@Test
+	public void TC04_Handle_CustomDropdownlistEditable() throws Exception {
+		
+		String editPageUrl = "http://indrimuska.github.io/jquery-editable-select/";
+		
+		System.out.println("Open Page Url");
+		driver.get(editPageUrl);
+		
+		WebElement parentDropdown = driver.findElement(By.xpath(editPageOpen));
+		js.executeScript("arguments[0].scrollIntoView(true);", parentDropdown);
+		Thread.sleep(1000);
+		js.executeScript("arguments[0].click();", parentDropdown);
+		Thread.sleep(2000);
+		parentDropdown.sendKeys("A");
+		
+		List<WebElement> allActiveItem = driver.findElements(editSelectedItem);
+		System.out.println("Number of Suggest Items : "+allActiveItem.size());
+		for(WebElement activeItem :allActiveItem) {
+			System.out.println(activeItem.getText());
+		}
 	}
 
 	public void sendkeyElement(By by, String value) {
