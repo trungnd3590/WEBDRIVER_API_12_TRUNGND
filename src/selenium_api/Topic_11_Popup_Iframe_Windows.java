@@ -216,7 +216,7 @@ public class Topic_11_Popup_Iframe_Windows {
 	}
 
 	@Test
-	public void TC04_Handle_WWindows() throws Exception {
+	public void TC04_Handle_Windows() throws Exception {
 
 		String pageUrl = "http://live.guru99.com/index.php/";
 		driver.get(pageUrl);
